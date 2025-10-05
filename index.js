@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
+import cors from "cors";
 import connectDb from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import studyRoutes from "./routes/studyRoute.js";
@@ -8,8 +9,16 @@ import studyRoutes from "./routes/studyRoute.js";
 
 
 const app = express();
-app.use(express.json());
 
+app.use(express.json());
+app.use(cors({
+    origin:process.env.FRONTEND,
+    credentials:true,
+    methods:["GET","POST","PUT","DELETE"],
+    allowedHeaders:["Content-Type","Authorization"]
+}))
+
+// port numer
 const PORT = process.env.PORT||7000;
 
 app.get('/',(req,res)=>{
